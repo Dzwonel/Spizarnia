@@ -1,7 +1,7 @@
 {# ─── Quick filter chips ─── #}
 <div class="quick-filters" id="quick-filters-wrap">
   <div class="chip-row">
-    <span class="chip-label">Categories</span>
+    <span class="chip-label">Kategorie</span>
     {% for c in categories %}
       {% set is_active = category == c %}
       <a class="chip {% if is_active %}chip-active{% endif %}"
@@ -9,12 +9,12 @@
         {{ c }} <span class="chip-count">{{ cat_counts.get(c, 0) }}</span>
       </a>
     {% else %}
-      <span class="muted" style="font-size:12px;">None yet</span>
+      <span class="muted" style="font-size:12px;">Brak</span>
     {% endfor %}
-    <a class="chip" href="{{ url_for('depleted_items') }}" style="opacity:0.75;">📦 Depleted</a>
+    <a class="chip" href="{{ url_for('depleted_items') }}" style="opacity:0.75;">📦 Wyczerpane</a>
   </div>
   <div class="chip-row">
-    <span class="chip-label">Locations</span>
+    <span class="chip-label">Miejsca</span>
     {% for l in locations %}
       {% set is_active = location == l %}
       <a class="chip {% if is_active %}chip-active{% endif %}"
@@ -22,7 +22,7 @@
         {{ l }} <span class="chip-count">{{ loc_counts.get(l, 0) }}</span>
       </a>
     {% else %}
-      <span class="muted" style="font-size:12px;">None yet</span>
+      <span class="muted" style="font-size:12px;">Brak</span>
     {% endfor %}
   </div>
 </div>
