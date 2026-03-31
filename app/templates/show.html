@@ -22,9 +22,9 @@
 
   {% if item.depleted_at %}
     <div class="alert-expiry danger">
-      <strong>Depleted on {{ item.depleted_at.split('T')[0] }}</strong>
+      <strong>Wyczerpane w {{ item.depleted_at.split('T')[0] }}</strong>
       {% if item.depleted_reason %}
-        <span class="muted">Reason: {{ item.depleted_reason }}</span>
+        <span class="muted">Powód: {{ item.depleted_reason }}</span>
       {% endif %}
     </div>
   {% elif expiry_info and expiry_info.days <= 30 %}
@@ -335,7 +335,7 @@
   "Donated/Returned",
   "Lost/Missing",
   "Restocked/Replaced (new batch)",
-  "Other"
+  "Inne"
 ] %}
 
 <dialog id="deplete-dialog" class="modal-card">
