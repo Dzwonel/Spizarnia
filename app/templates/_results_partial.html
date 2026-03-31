@@ -70,7 +70,7 @@
             data-item="{{ _idata | tojson | forceescape }}">
           <td class="col-name" data-field="name" data-orig-field="name">
             <a class="link name-link" href="{{ url_for('show_item', item_id=item.id) }}">{{ item.name }}</a>
-            {% if item.depleted_at %}<span class="pill pill-danger">Depleted</span>{% endif %}
+            {% if item.depleted_at %}<span class="pill pill-danger">Wyczerpane</span>{% endif %}
             {% if item.expiry_info and item.expiry_info.days <= 30 %}
               <span class="pill {{ item.expiry_info.severity }}"> {{ item.expiry_info.badge }} </span>
             {% endif %}
@@ -171,7 +171,7 @@
           {% if item.location %}<span>{{ item.location }}</span>{% endif %}
         </div>
         <div class="item-card-qty">{{ item.quantity }} {{ item.unit or '' }}</div>
-        {% if item.depleted_at %}<span class="pill pill-danger">Depleted</span>{% endif %}
+        {% if item.depleted_at %}<span class="pill pill-danger">Wyczerpane</span>{% endif %}
         {% if item.expiry_info and item.expiry_info.days <= 30 %}
           <span class="pill {{ item.expiry_info.severity }}">{{ item.expiry_info.badge }}</span>
         {% endif %}
