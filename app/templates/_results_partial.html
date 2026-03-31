@@ -178,26 +178,26 @@
       </div>
       <div class="item-card-footer">
         <div class="row-menu" style="width:100%;">
-          <button class="btn btn-small row-menu-toggle item-card-actions-btn" type="button">⋯ Actions</button>
+          <button class="btn btn-small row-menu-toggle item-card-actions-btn" type="button">⋯ Akcje</button>
           <div class="row-menu-dropdown" hidden>
-            <a class="row-menu-item" href="{{ url_for('show_item', item_id=item.id) }}">Open</a>
+            <a class="row-menu-item" href="{{ url_for('show_item', item_id=item.id) }}">Otwórz</a>
             <button class="row-menu-item js-edit" type="button"
-                    data-edit-url="{{ url_for('edit_item_form', item_id=item.id) }}?partial=1">Edit</button>
-            <a class="row-menu-item" href="{{ url_for('print_label_get', item_id=item.id) }}">Print Label</a>
+                    data-edit-url="{{ url_for('edit_item_form', item_id=item.id) }}?partial=1">Edycja</button>
+            <a class="row-menu-item" href="{{ url_for('print_label_get', item_id=item.id) }}">Wydrukuj etykiete</a>
             {% if not item.depleted_at %}
             <form class="js-deplete-form" method="post" action="{{ url_for('deplete_item', item_id=item.id) }}" style="display:contents">
               <input type="hidden" name="reason" value="">
               <input type="hidden" name="depleted_at_input" value="">
-              <button class="row-menu-item row-menu-danger" type="submit">Mark Depleted</button>
+              <button class="row-menu-item row-menu-danger" type="submit">Zaznacz jako wyczerpane</button>
             </form>
             {% else %}
             <form method="post" action="{{ url_for('recover_item', item_id=item.id) }}" style="display:contents">
-              <button class="row-menu-item" type="submit">Recover</button>
+              <button class="row-menu-item" type="submit">Odzyskaj</button>
             </form>
             {% endif %}
             <form method="post" action="{{ url_for('delete_item', item_id=item.id) }}" style="display:contents"
                   onsubmit="return confirm('Delete this item permanently?');">
-              <button class="row-menu-item row-menu-danger" type="submit">Delete</button>
+              <button class="row-menu-item row-menu-danger" type="submit">Usuń</button>
             </form>
           </div>
         </div>
@@ -209,13 +209,13 @@
   {# ── PAGINATION ── #}
   {% set total_pages = ((total_count + per_page - 1) // per_page) %}
   <div class="pagination">
-    <div class="pagination-info">Page {{ page }} of {{ total_pages }} ({{ total_count }} items)</div>
+    <div class="pagination-info">Strona {{ page }} z {{ total_pages }} ({{ total_count }} produktów)</div>
     <div class="pagination-controls">
       {% if page > 1 %}
-        <a class="btn" href="{{ request.url_for('index').include_query_params(page=page-1, q=q, category=category, location=location, bin=bin, origin_date=origin_date, use_by_date=use_by_date, tags=tags, include_depleted=1 if include_depleted else 0) }}">← Prev</a>
+        <a class="btn" href="{{ request.url_for('index').include_query_params(page=page-1, q=q, category=category, location=location, bin=bin, origin_date=origin_date, use_by_date=use_by_date, tags=tags, include_depleted=1 if include_depleted else 0) }}">← Poprzedni</a>
       {% endif %}
       {% if page < total_pages %}
-        <a class="btn" href="{{ request.url_for('index').include_query_params(page=page+1, q=q, category=category, location=location, bin=bin, origin_date=origin_date, use_by_date=use_by_date, tags=tags, include_depleted=1 if include_depleted else 0) }}">Next →</a>
+        <a class="btn" href="{{ request.url_for('index').include_query_params(page=page+1, q=q, category=category, location=location, bin=bin, origin_date=origin_date, use_by_date=use_by_date, tags=tags, include_depleted=1 if include_depleted else 0) }}">Następny →</a>
       {% endif %}
     </div>
   </div>
