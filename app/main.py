@@ -359,7 +359,7 @@ class AppSetting(SQLModel, table=True):
 # Display preferences (main table columns)
 # -----------------------------
 DISPLAYABLE_FIELDS = [
-    {"key": "location", "label": "Location", "sort_type": "text"},
+    {"key": "location", "label": "Miejsce", "sort_type": "text"},
     {"key": "bin_number", "label": "Bin", "sort_type": "text"},
     {"key": "category", "label": "Category", "sort_type": "text"},
     {"key": "quantity", "label": "QTY", "sort_type": "number"},

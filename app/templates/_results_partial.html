@@ -36,7 +36,7 @@
     <table class="table table-inventory">
       <thead>
         <tr>
-          <th class="sortable" data-sort-index="0" data-sort-type="text">Name</th>
+          <th class="sortable" data-sort-index="0" data-sort-type="text">Nazwa</th>
           {% set base_sort_index = 1 %}
           {% for col in display_fields %}
             <th class="sortable" data-sort-index="{{ base_sort_index + loop.index0 }}" data-sort-type="{{ col.sort_type }}">
