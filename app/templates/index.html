@@ -740,7 +740,7 @@ function applyChipsVisibility() {
   const hidden = localStorage.getItem('chips_hidden') === '1';
   if (wrap) wrap.classList.toggle('hidden', hidden);
   if (btn) {
-    btn.textContent = hidden ? '⊞ Filters' : '⊟ Filters';
+    btn.textContent = hidden ? '⊞ Filtry' : '⊟ Filtry';
     btn.classList.toggle('active', !hidden);
   }
 }
@@ -850,13 +850,13 @@ document.addEventListener('DOMContentLoaded', () => {
   if (advKeys.some(k => params.get(k))) {
     body.removeAttribute('hidden');
     btn.setAttribute('aria-expanded', 'true');
-    btn.textContent = '✕ Filters';
+    btn.textContent = '✕ Filtry';
   }
   btn.addEventListener('click', () => {
     const open = body.hasAttribute('hidden');
     body.toggleAttribute('hidden', !open);
     btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-    btn.textContent = open ? '✕ Filters' : '⚙ Filters';
+    btn.textContent = open ? '✕ Filtry' : '⚙ Filtry';
   });
 });
 
