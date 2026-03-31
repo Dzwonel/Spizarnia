@@ -2145,7 +2145,7 @@ def deplete_item(
 ):
     reason_clean = _norm(reason) or ""
     if reason_clean and reason_clean not in DEPLETION_REASONS:
-        reason_clean = "Oth?er"
+        reason_clean = "Other"
     # Use submitted datetime if valid, otherwise fall back to now
     depleted_iso = dt.datetime.utcnow().isoformat()
     if depleted_at_input:
