@@ -41,7 +41,7 @@
               <td>{{ item.days_on_hand if item.days_on_hand is not none else "—" }}</td>
               <td>{{ item.depleted_reason or "—" }}</td>
               <td class="right">
-                <a class="btn btn-small btn-ghost" href="{{ url_for('show_item', item_id=item.id) }}">Open</a>
+                <a class="btn btn-small btn-ghost" href="{{ url_for('show_item', item_id=item.id) }}">Otwórz</a>
               </td>
             </tr>
           {% endfor %}
