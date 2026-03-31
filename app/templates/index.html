@@ -10,17 +10,17 @@
   <div class="page-header">
     <div class="page-header-text">
       <h1 class="page-title">{{ app_heading }}</h1>
-      <p class="page-subtitle">Search, review, and print labels for everything in the bunker.</p>
+      <p class="page-subtitle">Szukaj, przeglądaj oraz drukuj etykiety dla wszystkiego w schowku.</p>
     </div>
   </div>
 
 <form method="get" class="search-and-filters" id="filter-panel">
     <div class="search-row">
         <input type="text" name="q" class="filter-input search-input"
-               placeholder="Search name, serial, tags, location, bin…"
+               placeholder="Wyszukaj nazwę, miejsce, kategorię, etc."
                value="{{ q }}" list="search-suggestions" autocomplete="off">
-        <button class="btn btn-primary" type="submit">Search</button>
-        <button class="btn btn-secondary" type="button" id="adv-filter-toggle" aria-expanded="false">⚙ Filters</button>
+        <button class="btn btn-primary" type="submit">Szukaj</button>
+        <button class="btn btn-secondary" type="button" id="adv-filter-toggle" aria-expanded="false">⚙ Filtry</button>
         <datalist id="search-suggestions">
           {% for s in search_suggestions %}<option value="{{ s }}">{% endfor %}
         </datalist>
@@ -28,42 +28,42 @@
     <div id="adv-filters-body" hidden>
       <div class="filters-row">
           <div class="filter-group">
-              <label>Category</label>
+              <label>Kategoria</label>
               <select name="category" class="filter-input">
-                  <option value="">(Any)</option>
+                  <option value="">(Dowolny)</option>
                   {% for c in cats %}<option value="{{ c }}" {% if category == c %}selected{% endif %}>{{ c }}</option>{% endfor %}
               </select>
           </div>
           <div class="filter-group">
-              <label>Location</label>
+              <label>Miejsce</label>
               <select name="location" class="filter-input">
-                  <option value="">(Any)</option>
+                  <option value="">(Dowolny)</option>
                   {% for l in locations %}<option value="{{ l }}" {% if location == l %}selected{% endif %}>{{ l }}</option>{% endfor %}
               </select>
           </div>
           <div class="filter-group">
-              <label>Bin</label>
+              <label>Pojemnik</label>
               <select name="bin_number" class="filter-input">
-                  <option value="">(Any)</option>
+                  <option value="">(Dowolny)</option>
                   {% for b in bins %}<option value="{{ b }}" {% if bin_number == b %}selected{% endif %}>{{ b }}</option>{% endfor %}
               </select>
           </div>
           <div class="filter-group">
-              <label>Origin Date</label>
+              <label>Data pochodzenia</label>
               <input type="date" name="origin_date" class="filter-input" value="{{ origin_date }}">
           </div>
           <div class="filter-group">
-              <label>Use-by date</label>
+              <label>Data przydatności</label>
               <input type="date" name="use_by_date" class="filter-input" value="{{ use_by_date }}">
           </div>
           <div class="filter-group">
-              <label>Tags (contains)</label>
-              <input type="text" name="tags" class="filter-input" placeholder="e.g. beef, freezer" value="{{ tags }}">
+              <label>Tagi (zawiera)</label>
+              <input type="text" name="tags" class="filter-input" placeholder="np. wołowina, lodówka" value="{{ tags }}">
           </div>
           <div class="filter-group">
-            <label>Depletion reason</label>
+            <label>Powód wyczerpania</label>
             <select name="depleted_reason" class="filter-input">
-              <option value="">(Any)</option>
+              <option value="">(Dowolny)</option>
               {% for r in DEPLETION_REASONS %}<option value="{{ r }}" {% if request.query_params.get('depleted_reason') == r %}selected{% endif %}>{{ r }}</option>{% endfor %}
             </select>
           </div>
@@ -71,26 +71,26 @@
             <label>&nbsp;</label>
             <label style="display:flex; align-items:center; gap:6px; font-size:13px;">
               <input type="checkbox" name="include_depleted" value="1" {% if include_depleted %}checked{% endif %}>
-              Include depleted
+              Uwzględnij wyczerpane
             </label>
           </div>
       </div>
       <div class="filters-actions">
-          <button class="btn-primary" type="submit">Apply filters</button>
-          <a class="btn-clear-filters" href="{{ url_for('index') }}">Clear</a>
+          <button class="btn-primary" type="submit">Zastosuj filtry</button>
+          <a class="btn-clear-filters" href="{{ url_for('index') }}">Wyczyść</a>
       </div>
     </div>
 </form>
 
 {# View toggle bar #}
 <div class="view-toggle-bar">
-  <button class="btn btn-small" id="chips-toggle" title="Show/hide quick filters">⊟ Filters</button>
-  <button class="btn btn-small hide-mobile" id="quick-edit-toggle" title="Toggle quick edit mode for all rows">✏ Quick Edit</button>
+  <button class="btn btn-small" id="chips-toggle" title="Show/hide quick filters">⊟ Filtry</button>
+  <button class="btn btn-small hide-mobile" id="quick-edit-toggle" title="Toggle quick edit mode for all rows">✏ Szybka edycja</button>
   <div class="view-toggle-btns">
-    <button class="btn btn-small" data-view-toggle="list" title="List view">☰ List</button>
-    <button class="btn btn-small" data-view-toggle="grid" title="Grid view">⊞ Grid</button>
+    <button class="btn btn-small" data-view-toggle="list" title="List view">☰ Lista</button>
+    <button class="btn btn-small" data-view-toggle="grid" title="Grid view">⊞ Siatka</button>
   </div>
-  <a class="btn btn-small" href="{{ url_for('depleted_items') }}" title="View all depleted items">📦 Depleted</a>
+  <a class="btn btn-small" href="{{ url_for('depleted_items') }}" title="View all depleted items">📦 Wyczerpane</a>
 </div>
 
 {# Results region — swapped by AJAX #}

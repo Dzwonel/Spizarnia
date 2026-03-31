@@ -408,7 +408,7 @@ BACKUP_DEFAULT_OPTIONS = {
 }
 
 THEME_DEFAULT = "dark"
-APP_HEADING_DEFAULT = "Pantrlytics"
+APP_HEADING_DEFAULT = "Spiżarnia"
 ADMIN_DEFAULT_PASSWORD = "password"
 
 # Export CSV field options
