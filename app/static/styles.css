@@ -344,7 +344,7 @@ button.btn { -webkit-appearance: none; appearance: none; }
 /* ── Row / card dropdown menu ───────────────────────────────────── */
 .row-menu { position: relative; display: inline-block; }
 .row-menu-dropdown {
-  position: relative;
+  position: sticky;
   right: 0;
   top: calc(100% + 4px);
   z-index: 200;
