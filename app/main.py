@@ -159,13 +159,13 @@ DEFAULT_UNIT_ENTRIES = [
 ]
 MAX_LABEL_COPIES = 25  # Safety limit for print jobs triggered via UI
 DEPLETION_REASONS = [
-    "Consumed/Used",
-    "Discarded (expired/spoiled)",
-    "Discarded (damaged)",
-    "Donated/Returned",
-    "Lost/Missing",
-    "Restocked/Replaced (new batch)",
-    "Other",
+    "Zużyte/Użyte",
+    "Wyrzucone (przeterminowane/zepsute)",
+    "Wyrzucone (uszkodzone)",
+    "Przekazane/Zwrócone",
+    "Zgubione/Zaginione",
+    "Uzupełnione/Wymienione (nowa partia)",
+    "Inne",
 ]
 
 # -----------------------------
