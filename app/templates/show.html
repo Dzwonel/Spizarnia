@@ -312,7 +312,7 @@
       if (!pendingForm) return;
       const reason = select?.value || '';
       const other = otherInput?.value || '';
-      const finalReason = reason === 'Other' ? other : reason;
+      const finalReason = reason === 'Ot?her' ? other : reason;
       pendingForm.querySelector('input[name=\"reason\"]').value = finalReason;
       pendingForm.querySelector('input[name=\"depleted_at_input\"]').value = dateInput?.value || '';
       if (typeof dlg.close === 'function') dlg.close();
