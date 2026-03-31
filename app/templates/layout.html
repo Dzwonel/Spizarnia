@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% block title %}Pantrlytics{% endblock %}</title>
+  <title>{% block title %}Spiżarnia{% endblock %}</title>
 
   <!-- Minimal fallback only (so page stays readable if CSS 404s).
        The real look comes from /static/styles.css below. -->
@@ -53,19 +53,19 @@
       <div style="grid-row:1 / 2; grid-column:2 / 3; display:flex; align-items:center; justify-content:space-between; gap:10px;">
         <h1 class="app-title" style="margin:0;">
           <a href="{{ url_for('index') }}" style="display:inline-flex; align-items:baseline; gap:10px; text-decoration:none;">
-            Pantrlytics
-            <span style="font-size:14px; font-style:italic; color: var(--muted);">Your Mise en Place, Digitized.</span>
+            Spiżarnia
+            <span style="font-size:14px; font-style:italic; color: var(--muted);">Twoja spiżarnia w jednym miejscu.</span>
           </a>
         </h1>
         <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false">☰</button>
       </div>
       <div class="nav-container" style="grid-row:2 / 3; grid-column:2 / 3;">
         <nav class="nav" id="main-nav" style="flex-wrap:wrap; gap:22px; padding-left:0; font-size:17px;">
-          <a href="{{ url_for('index') }}">All Items</a>
-          <a href="{{ url_for('new_item') }}">New Item</a>
-          <a href="{{ url_for('label_designer') }}">Designer</a>
-          <a href="{{ url_for('reports') }}">Reports</a>
-          <a href="{{ url_for('review_page') }}">Review</a>
+          <a href="{{ url_for('index') }}">Wszystkie przedmioty</a>
+          <a href="{{ url_for('new_item') }}">Nowe przedmioty</a>
+          <a href="{{ url_for('label_designer') }}">Planer</a>
+          <a href="{{ url_for('reports') }}">Statusy</a>
+          <a href="{{ url_for('review_page') }}">Przegląd</a>
           <a href="{{ url_for('admin') }}">Admin</a>
           <a href="{{ url_for('backup_page') }}">Backup</a>
         </nav>
