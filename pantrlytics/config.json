@@ -1,0 +1,22 @@
+{
+  "name": "PantrLytics",
+  "version": "2026.01.09",
+  "image": "ghcr.io/Psychman52OS/pantrlytics:latest",
+  "slug": "pantrlytics",
+  "description": "PantrLytics inventory app with labels and printing — Supervisor add-on with Ingress",
+  "url": "https://github.com/Psychman52OS/PantrLytics",
+  "changelog": "https://github.com/Psychman52OS/PantrLytics/blob/main/CHANGELOG.md",
+  "logo": "logo.png",
+  "icon": "icon.png",
+  "arch": ["aarch64", "amd64", "armv7", "armhf"],
+  "startup": "services",
+  "boot": "auto",
+  "options": {
+    "workers": 2
+  },
+  "schema": {
+    "workers": "int"
+  },
+  "ingress": true,
+  "host_network": false
+}

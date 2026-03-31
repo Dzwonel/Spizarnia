@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Pantrlytics{% endblock %}</title>
+
+  <!-- Minimal fallback only (so page stays readable if CSS 404s).
+       The real look comes from /static/styles.css below. -->
+  <style>
+    :root{
+      --bg:#0b0b0d; --text:#e5e7eb; --link:#4dabf7;
+    }
+    html,body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font:14px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif
+    }
+    a{color:var(--link);text-decoration:none}
+    .container{max-width:1100px;margin:0 auto;padding:16px}
+  </style>
+
+  {% set rootp = request.scope.get('root_path','') %}
+  <link rel="stylesheet"
+      href="{{ (rootp ~ '/assets/styles.css?v=' ~ css_version) | replace('//','/') }}">
+  <link rel="icon" type="image/png" href="{{ (rootp ~ '/assets/icon.png') | replace('//','/') }}">
+  <link rel="alternate icon" type="image/svg+xml" href="{{ (rootp ~ '/assets/icon.svg') | replace('//','/') }}">
+  {% set _fs = get_font_sizes() %}
+  <style>:root { --fs-base: {{ _fs.base }}px; }</style>
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+  <script>
+    // Apply theme class early to avoid flash
+    (function() {
+      let theme = localStorage.getItem('app_theme') || document.documentElement.dataset.theme;
+      if (!theme) {
+        const prefersLight = window.matchMedia &&
+          window.matchMedia('(prefers-color-scheme: light)').matches;
+        theme = prefersLight ? 'light' : 'dark';
+      }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  <header class="app-header">
+    <div class="container" style="display:grid; grid-template-columns:110px 1fr; grid-template-rows:auto auto; gap:10px 18px; align-items:center;">
+      <div style="grid-row:1 / span 2; grid-column:1 / 2; align-self:center;">
+        <a href="{{ url_for('index') }}" style="display:block;">
+          <img src="{{ (request.scope.get('root_path','') ~ '/assets/icon.png') | replace('//','/') }}" alt="PantrLytics icon" width="100" height="100" style="display:block; border-radius:16px;">
+        </a>
+      </div>
+      <div style="grid-row:1 / 2; grid-column:2 / 3; display:flex; align-items:center; justify-content:space-between; gap:10px;">
+        <h1 class="app-title" style="margin:0;">
+          <a href="{{ url_for('index') }}" style="display:inline-flex; align-items:baseline; gap:10px; text-decoration:none;">
+            Pantrlytics
+            <span style="font-size:14px; font-style:italic; color: var(--muted);">Your Mise en Place, Digitized.</span>
+          </a>
+        </h1>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false">☰</button>
+      </div>
+      <div class="nav-container" style="grid-row:2 / 3; grid-column:2 / 3;">
+        <nav class="nav" id="main-nav" style="flex-wrap:wrap; gap:22px; padding-left:0; font-size:17px;">
+          <a href="{{ url_for('index') }}">All Items</a>
+          <a href="{{ url_for('new_item') }}">New Item</a>
+          <a href="{{ url_for('label_designer') }}">Designer</a>
+          <a href="{{ url_for('reports') }}">Reports</a>
+          <a href="{{ url_for('review_page') }}">Review</a>
+          <a href="{{ url_for('admin') }}">Admin</a>
+          <a href="{{ url_for('backup_page') }}">Backup</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    {% block content %}{% endblock %}
+
+    <!-- Modal -->
+    <dialog id="app-modal">
+      <form method="dialog" id="app-modal-close">
+        <button class="btn btn-small btn-ghost" value="close" aria-label="Close dialog">
+          ✕
+        </button>
+      </form>
+      <div id="app-modal-body" class="modal-card"></div>
+    </dialog>
+  </main>
+
+  <!-- Bottom tab bar (mobile only) -->
+  <nav class="bottom-nav" aria-label="Main navigation">
+    <div class="bottom-nav-inner">
+      <a class="bottom-nav-item" href="{{ url_for('index') }}">
+        <span class="bottom-nav-icon">🏠</span>
+        <span class="bottom-nav-label">Items</span>
+      </a>
+      <a class="bottom-nav-item" href="{{ url_for('new_item') }}">
+        <span class="bottom-nav-icon">＋</span>
+        <span class="bottom-nav-label">New</span>
+      </a>
+      <a class="bottom-nav-item" href="{{ url_for('label_designer') }}">
+        <span class="bottom-nav-icon">🏷</span>
+        <span class="bottom-nav-label">Designer</span>
+      </a>
+      <a class="bottom-nav-item" href="{{ url_for('reports') }}">
+        <span class="bottom-nav-icon">📊</span>
+        <span class="bottom-nav-label">Reports</span>
+      </a>
+      <button class="bottom-nav-item" type="button" id="bottom-more-btn">
+        <span class="bottom-nav-icon">⋯</span>
+        <span class="bottom-nav-label">More</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- More sheet -->
+  <div class="bottom-sheet" id="bottom-sheet" aria-hidden="true">
+    <div class="bottom-sheet-backdrop" id="bottom-sheet-backdrop"></div>
+    <div class="bottom-sheet-content">
+      <div class="bottom-sheet-handle"></div>
+      <a class="bottom-sheet-item" href="{{ url_for('review_page') }}">🔍 Review Items</a>
+      <a class="bottom-sheet-item" href="{{ url_for('admin') }}">⚙ Admin &amp; Settings</a>
+      <a class="bottom-sheet-item" href="{{ url_for('backup_page') }}">💾 Backup</a>
+      <a class="bottom-sheet-item" href="{{ url_for('depleted_items') }}">📦 Depleted Items</a>
+    </div>
+  </div>
+
+<script>
+  const dlg  = document.getElementById('app-modal');
+  const body = document.getElementById('app-modal-body');
+
+  async function openModal(url) {
+    try {
+      const res  = await fetch(url, {
+        headers: {
+          "Accept": "text/html",
+          "X-Requested-With": "fetch"
+        }
+      });
+      const html = await res.text();
+      body.innerHTML = html;
+
+      // Browsers don't reliably initialise <input type="date"> values set via
+      // innerHTML — explicitly push the attribute value into the live property.
+      body.querySelectorAll('input[type="date"]').forEach(inp => {
+        const v = inp.getAttribute('value');
+        if (v) inp.value = v;
+      });
+
+      // Scripts injected via innerHTML don't execute — manually wire the
+      // origin date label select ↔ hidden text input sync.
+      (function() {
+        const sel = body.querySelector('#edit-origin-label-sel');
+        const inp = body.querySelector('#edit-origin-label-val');
+        if (!sel || !inp) return;
+        // Sync hidden input to current select value on load
+        if (inp.style.display === 'none') inp.value = sel.value;
+        sel.addEventListener('change', () => {
+          if (sel.value === '__custom__') {
+            inp.style.display = 'block';
+            inp.value = '';
+            inp.focus();
+          } else {
+            inp.value = sel.value;
+            inp.style.display = 'none';
+          }
+        });
+      })();
+
+      if (typeof dlg.showModal === "function") {
+        dlg.showModal();
+      } else {
+        dlg.setAttribute("open", "open");
+      }
+
+      const form = body.querySelector('form[data-edit-form]');
+      if (form) {
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const submitBtn = form.querySelector('button[type="submit"]') || form.querySelector('.btn-primary');
+          const originalText = submitBtn ? submitBtn.textContent : '';
+          if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Saving…'; }
+          const fd  = new FormData(form);
+          let data = null;
+          try {
+            const res2 = await fetch(form.action, {
+              method: 'POST',
+              body: fd,
+              headers: {
+                "Accept": "application/json",
+                "X-Requested-With": "fetch"
+              }
+            });
+            const ct = res2.headers.get('content-type') || '';
+            if (ct.includes('application/json')) {
+              data = await res2.json();
+            } else if (res2.ok) {
+              // non-JSON but ok (e.g. redirect) -> reload
+              window.location.reload();
+              return;
+            }
+          } catch (err) {
+            console.error(err);
+          } finally {
+            if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = originalText || 'Save'; }
+          }
+
+          if (data && data.ok) {
+            closeModal();
+            const urlObj = new URL(window.location.href);
+            urlObj.searchParams.delete('edit');
+            window.location.href = urlObj.toString();
+          } else {
+            alert('Save failed');
+          }
+        });
+      }
+    } catch (e) {
+      console.error(e);
+      alert('Failed to load editor.');
+    }
+  }
+
+  function closeModal(){
+    if (!dlg) return;
+    if (typeof dlg.close === "function") {
+      dlg.close();
+    } else {
+      dlg.removeAttribute("open");
+    }
+  }
+
+  // ✅ Click outside the modal content to close
+  if (dlg) {
+    dlg.addEventListener('click', (event) => {
+      // Only close if the user clicked the backdrop, not inside the card
+      if (event.target === dlg) {
+        closeModal();
+      }
+    });
+  }
+
+  window.openModal  = openModal;
+  window.closeModal = closeModal;
+
+  // Theme switcher listener (ties into admin radio)
+  document.addEventListener('change', (e) => {
+    const form = e.target.closest('#theme-form');
+    if (!form) return;
+    const toggle = form.querySelector('input[name="theme_toggle"]');
+    const themeInput = form.querySelector('input[name="theme"]');
+    const val = toggle && toggle.checked ? 'light' : 'dark';
+    if (themeInput) themeInput.value = val;
+    document.documentElement.dataset.theme = val;
+    try { localStorage.setItem('app_theme', val); } catch (_e) {}
+    form.submit();
+  });
+
+  // Simple required validation helper
+  document.addEventListener('submit', (e) => {
+    const form = e.target;
+    if (!form.classList.contains('js-validate-required')) return;
+    let valid = true;
+    form.querySelectorAll('.field-error-message').forEach(el => el.remove());
+    form.querySelectorAll('.field').forEach(f => f.classList.remove('field-error'));
+    const requiredInputs = form.querySelectorAll('[required]');
+    requiredInputs.forEach(inp => {
+      if (!inp.value || (typeof inp.value === 'string' && !inp.value.trim())) {
+        valid = false;
+        const field = inp.closest('.field') || inp.parentElement;
+        if (field) {
+          field.classList.add('field-error');
+          const msg = document.createElement('div');
+          msg.className = 'field-error-message';
+          msg.textContent = 'Required';
+          field.appendChild(msg);
+        }
+      }
+    });
+    if (!valid) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  });
+
+  // File input filename display
+  document.addEventListener('change', (e) => {
+    const input = e.target;
+    if (!(input instanceof HTMLInputElement)) return;
+    if (input.type !== 'file') return;
+    const wrapper = input.closest('.file-input');
+    if (!wrapper) return;
+    const label = wrapper.querySelector('.file-name');
+    if (!label) return;
+    const files = Array.from(input.files || []);
+    if (!files.length) {
+      label.textContent = 'No file chosen';
+      return;
+    }
+    const names = files.slice(0,3).map(f => f.name).join(', ');
+    label.textContent = files.length > 3 ? `${files.length} files selected (${names}…)` : names;
+  });
+
+  // Hamburger nav toggle (desktop fallback, hidden on mobile)
+  (function () {
+    const toggle = document.getElementById('nav-toggle');
+    const nav = document.getElementById('main-nav');
+    if (!toggle || !nav) return;
+    toggle.addEventListener('click', () => {
+      const open = nav.classList.toggle('nav-open');
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      toggle.textContent = open ? '✕' : '☰';
+    });
+  })();
+
+  // Bottom nav: highlight active tab
+  (function () {
+    const path = window.location.pathname.replace(/\/+$/, '') || '/';
+    document.querySelectorAll('.bottom-nav-item[href]').forEach(item => {
+      const href = (item.getAttribute('href') || '').split('?')[0].replace(/\/+$/, '') || '/';
+      if (path === href || (href !== '/' && path.startsWith(href + '/'))) {
+        item.classList.add('active');
+      }
+    });
+  })();
+
+  // Bottom nav: More sheet
+  (function () {
+    const btn = document.getElementById('bottom-more-btn');
+    const sheet = document.getElementById('bottom-sheet');
+    const backdrop = document.getElementById('bottom-sheet-backdrop');
+    if (!btn || !sheet || !backdrop) return;
+    function open() { sheet.classList.add('open'); sheet.setAttribute('aria-hidden', 'false'); }
+    function close() { sheet.classList.remove('open'); sheet.setAttribute('aria-hidden', 'true'); }
+    btn.addEventListener('click', open);
+    backdrop.addEventListener('click', close);
+  })();
+
+  // ── Set-thumbnail star button (delegated — works inside modals loaded via innerHTML) ──
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.js-set-thumbnail');
+    if (!btn) return;
+    e.preventDefault();
+    let url = btn.dataset.url;
+    if (!url) return;
+    // Use pathname only so the fetch is always same-origin (avoids HA ingress scheme mismatch)
+    try { url = new URL(url, window.location.href).pathname; } catch (_) {}
+    btn.disabled = true;
+    fetch(url, { method: 'POST' })
+      .then(r => r.ok ? r.json() : Promise.reject('HTTP ' + r.status))
+      .then(data => {
+        if (data.ok) {
+          document.querySelectorAll('.js-set-thumbnail').forEach(b => {
+            b.classList.remove('thumb-primary');
+            b.title = 'Set as thumbnail';
+            b.textContent = '★';
+          });
+          btn.classList.add('thumb-primary');
+          btn.title = 'Current thumbnail ✓';
+          btn.textContent = '✓';
+          // Reload so the grid cards reflect the new thumbnail
+          setTimeout(() => { window.location.reload(); }, 600);
+        }
+      })
+      .catch((err) => { console.error('set-thumbnail failed', err); })
+      .finally(() => { btn.disabled = false; });
+  });
+</script>
+</body>
+</html>

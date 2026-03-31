@@ -1,0 +1,204 @@
+{% extends "layout.html" %}
+{% block title %}New Item · Inventory & Labels{% endblock %}
+{% block content %}
+<section class="card">
+  <h2 class="card-title">Create Item</h2>
+
+  {% if error %}
+    <div class="alert alert-error">{{ error }}</div>
+  {% endif %}
+
+  <form class="form-grid js-validate-required" method="post" enctype="multipart/form-data">
+    <div class="field">
+      <label>Name {% if 'name' in required_fields %}(REQUIRED){% endif %}</label>
+      <input class="input" type="text" name="name"
+             value="{{ form_values.name or '' }}"
+             {% if 'name' in required_fields %}required{% endif %}>
+    </div>
+
+    <div class="field">
+      <label>Category {% if 'category' in required_fields %}(REQUIRED){% endif %}</label>
+      <input class="input" list="cat-list" name="category" placeholder="Type or pick…"
+             value="{{ form_values.category or '' }}"
+             {% if 'category' in required_fields %}required{% endif %}>
+      <datalist id="cat-list">
+        {% for c in cats %}<option value="{{ c }}">{% endfor %}
+      </datalist>
+    </div>
+
+    <div class="field">
+      <label>Tags (comma-separated) {% if 'tags' in required_fields %}(REQUIRED){% endif %}</label>
+      <input class="input" type="text" name="tags"
+             value="{{ form_values.tags or '' }}"
+             {% if 'tags' in required_fields %}required{% endif %}>
+    </div>
+
+    <div class="field">
+      <label for="location">Location {% if 'location' in required_fields %}(REQUIRED){% endif %}</label>
+      <input class="input" list="loc-list" id="location" name="location"
+             value="{{ form_values.location or '' }}"
+             {% if 'location' in required_fields %}required{% endif %}>
+      <datalist id="loc-list">
+        {% for loc in locations %}<option value="{{ loc }}">{% endfor %}
+      </datalist>
+    </div>
+
+    <div class="field">
+      <label>Bin # {% if 'bin_number' in required_fields %}(REQUIRED){% endif %}</label>
+      <input class="input" list="bin-list" name="bin_number" placeholder="Type or pick…"
+             value="{{ form_values.bin_number or '' }}"
+             {% if 'bin_number' in required_fields %}required{% endif %}>
+      <datalist id="bin-list">
+        {% for b in bins %}<option value="{{ b }}">{% endfor %}
+      </datalist>
+    </div>
+
+    <div class="field">
+      <label>Quantity {% if 'quantity' in required_fields %}(REQUIRED){% endif %}</label>
+      <input class="input" type="number" name="quantity"
+             value="{{ form_values.quantity if form_values.quantity is not none else 1 }}"
+             min="0"
+             {% if 'quantity' in required_fields %}required{% endif %}>
+    </div>
+
+    <div class="field">
+      <label>Unit {% if 'unit' in required_fields %}(REQUIRED){% endif %}</label>
+      <input class="input" type="text" name="unit" list="unit-list"
+             value="{{ form_values.unit or 'each' }}"
+             {% if 'unit' in required_fields %}required{% endif %}>
+      <datalist id="unit-list">
+        {% for u in units|default([]) %}<option value="{{ u }}">{% endfor %}
+      </datalist>
+    </div>
+
+    <div class="field">
+      <label>Condition {% if 'condition' in required_fields %}(REQUIRED){% endif %}</label>
+      <input class="input" type="text" name="condition" placeholder="new / good / used / frozen"
+             value="{{ form_values.condition or '' }}"
+             {% if 'condition' in required_fields %}required{% endif %}>
+    </div>
+
+    <div class="field field--full">
+      <label>Origin Date label <span class="muted" style="font-weight:normal;">(what to call this date)</span></label>
+      <div style="display:flex; flex-direction:column; gap:6px; max-width:260px;">
+        {% set _cur_odl = form_values.origin_date_label or 'Cooked On' %}
+        {% set _odl_in_list = _cur_odl in origin_date_labels %}
+        <select class="input" id="new-origin-label-sel" style="max-width:260px;">
+          {% for lbl in origin_date_labels %}
+            <option value="{{ lbl }}" {% if lbl == _cur_odl %}selected{% endif %}>{{ lbl }}</option>
+          {% endfor %}
+          <option value="__custom__" {% if not _odl_in_list %}selected{% endif %}>Custom…</option>
+        </select>
+        <input type="text" name="origin_date_label" id="new-origin-label-val"
+               class="input" placeholder="Enter custom label…"
+               style="max-width:260px; {% if _odl_in_list %}display:none;{% endif %}"
+               value="{{ _cur_odl }}">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Origin Date {% if 'origin_date' in required_fields %}(REQUIRED){% endif %}</label>
+      <input class="input" type="date" name="origin_date"
+             value="{{ form_values.origin_date or '' }}"
+             {% if 'origin_date' in required_fields %}required{% endif %}>
+    </div>
+
+    <div class="field">
+      <label>Use-by date {% if 'use_by_date' in required_fields %}(REQUIRED){% endif %}</label>
+      <input class="input" type="date" name="use_by_date"
+             value="{{ form_values.use_by_date or '' }}"
+             {% if 'use_by_date' in required_fields %}required{% endif %}>
+    </div>
+
+    <div class="field">
+      <label>Use Within {% if 'use_within' in required_fields %}(REQUIRED){% endif %}</label>
+      <select class="input" name="use_within">
+        <option value="">—</option>
+        {% for uw in use_withins %}
+          <option value="{{ uw }}" {% if form_values.use_within == uw %}selected{% endif %}>
+            {{ uw }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="field field--full">
+      <label>Review window <span class="muted" style="font-weight:normal;">(days — leave blank to use default of {{ audit_window_days }}d)</span></label>
+      <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:4px;">
+        {% for days in [15, 30, 60, 120] %}
+          <button type="button" class="btn btn-secondary btn-sm js-review-quick
+            {% if form_values.review_window_days == days %}btn-accent{% endif %}"
+            data-days="{{ days }}">{{ days }}d</button>
+        {% endfor %}
+      </div>
+      <input class="input input-small" type="number" name="review_window_days" id="new_review_window_days"
+             min="1" max="365" placeholder="Default ({{ audit_window_days }}d)"
+             value="{{ form_values.review_window_days or '' }}" style="width:120px;">
+    </div>
+
+    <div class="field field--full">
+      <label>Notes {% if 'notes' in required_fields %}(REQUIRED){% endif %}</label>
+      <textarea class="input" name="notes" rows="3"
+        {% if 'notes' in required_fields %}required{% endif %}
+      >{{ form_values.notes or "" }}</textarea>
+    </div>
+
+    <div class="field field--full">
+      <label>Photos</label>
+      <div class="photo-input-row">
+        <label class="file-input">
+          <span class="file-btn">📷 Take photo</span>
+          <input class="input" type="file" name="photos" accept="image/*" capture="environment">
+          <span class="file-name">Camera</span>
+        </label>
+        <label class="file-input">
+          <span class="file-btn">🖼 Choose file</span>
+          <input class="input" type="file" name="photos" accept="image/*" multiple>
+          <span class="file-name">Select one or more</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="actions field--full">
+      <button class="btn" type="submit">Save</button>
+      <a class="btn btn-secondary" href="{{ url_for('index') }}">Cancel</a>
+    </div>
+  </form>
+</section>
+<script>
+(function(){
+  const sel = document.getElementById('new-origin-label-sel');
+  const inp = document.getElementById('new-origin-label-val');
+  if (!sel || !inp) return;
+  // Sync hidden input when select changes
+  sel.addEventListener('change', () => {
+    if (sel.value === '__custom__') {
+      inp.style.display = 'block';
+      inp.value = '';
+      inp.focus();
+    } else {
+      inp.value = sel.value;
+      inp.style.display = 'none';
+    }
+  });
+  // Initialize: if not already showing custom input, sync value from select
+  if (inp.style.display === 'none') inp.value = sel.value;
+})();
+
+(function(){
+  const input = document.getElementById('new_review_window_days');
+  if (!input) return;
+  const btns = document.querySelectorAll('.js-review-quick');
+  function syncBtns() {
+    btns.forEach(b => b.classList.toggle('btn-accent', b.dataset.days === input.value));
+  }
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      input.value = btn.dataset.days;
+      syncBtns();
+    });
+  });
+  input.addEventListener('input', syncBtns);
+})();
+</script>
+{% endblock %}
