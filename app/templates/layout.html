@@ -61,8 +61,8 @@
       </div>
       <div class="nav-container" style="grid-row:2 / 3; grid-column:2 / 3;">
         <nav class="nav" id="main-nav" style="flex-wrap:wrap; gap:22px; padding-left:0; font-size:17px;">
-          <a href="{{ url_for('index') }}">Wszystkie przedmioty</a>
-          <a href="{{ url_for('new_item') }}">Nowe przedmioty</a>
+          <a href="{{ url_for('index') }}">Wszystkie produkty</a>
+          <a href="{{ url_for('new_item') }}">Nowe produkty</a>
           <a href="{{ url_for('label_designer') }}">Planer</a>
           <a href="{{ url_for('reports') }}">Statusy</a>
           <a href="{{ url_for('review_page') }}">Przegląd</a>
@@ -92,23 +92,23 @@
     <div class="bottom-nav-inner">
       <a class="bottom-nav-item" href="{{ url_for('index') }}">
         <span class="bottom-nav-icon">🏠</span>
-        <span class="bottom-nav-label">Items</span>
+        <span class="bottom-nav-label">Produkty</span>
       </a>
       <a class="bottom-nav-item" href="{{ url_for('new_item') }}">
         <span class="bottom-nav-icon">＋</span>
-        <span class="bottom-nav-label">New</span>
+        <span class="bottom-nav-label">Nowe</span>
       </a>
       <a class="bottom-nav-item" href="{{ url_for('label_designer') }}">
         <span class="bottom-nav-icon">🏷</span>
-        <span class="bottom-nav-label">Designer</span>
+        <span class="bottom-nav-label">Planer</span>
       </a>
       <a class="bottom-nav-item" href="{{ url_for('reports') }}">
         <span class="bottom-nav-icon">📊</span>
-        <span class="bottom-nav-label">Reports</span>
+        <span class="bottom-nav-label">Statusy</span>
       </a>
       <button class="bottom-nav-item" type="button" id="bottom-more-btn">
         <span class="bottom-nav-icon">⋯</span>
-        <span class="bottom-nav-label">More</span>
+        <span class="bottom-nav-label">Więcej</span>
       </button>
     </div>
   </nav>
@@ -118,10 +118,10 @@
     <div class="bottom-sheet-backdrop" id="bottom-sheet-backdrop"></div>
     <div class="bottom-sheet-content">
       <div class="bottom-sheet-handle"></div>
-      <a class="bottom-sheet-item" href="{{ url_for('review_page') }}">🔍 Review Items</a>
-      <a class="bottom-sheet-item" href="{{ url_for('admin') }}">⚙ Admin &amp; Settings</a>
+      <a class="bottom-sheet-item" href="{{ url_for('review_page') }}">🔍 Przejrzyj produkty</a>
+      <a class="bottom-sheet-item" href="{{ url_for('depleted_items') }}">📦 Wyczerpane produkty</a>
+      <a class="bottom-sheet-item" href="{{ url_for('admin') }}">⚙ Admin &amp; Ustawienia</a>
       <a class="bottom-sheet-item" href="{{ url_for('backup_page') }}">💾 Backup</a>
-      <a class="bottom-sheet-item" href="{{ url_for('depleted_items') }}">📦 Depleted Items</a>
     </div>
   </div>
 
