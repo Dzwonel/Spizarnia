@@ -115,31 +115,31 @@
           {% endfor %}
           <td class="right col-actions">
             <div class="btn-group">
-<!--              <a class="btn btn-small btn-ghost action-open"
+              <a class="btn btn-small btn-ghost action-open"
                  href="{{ url_for('show_item', item_id=item.id) }}"
-                 title="Open details">Open</a>  -->
+                 title="Open details">Open</a>
               <div class="row-menu">
                 <button class="btn btn-small btn-ghost row-menu-toggle" type="button" aria-label="More actions" aria-haspopup="true">
-                  <span class="hide-mobile">⋯</span><span class="hide-desktop">Actions</span>
+                  <span class="hide-mobile">⋯</span><span class="hide-desktop">Akcje</span>
                 </button>
                 <div class="row-menu-dropdown" hidden>
                   <button class="row-menu-item js-edit" type="button"
-                          data-edit-url="{{ url_for('edit_item_form', item_id=item.id) }}?partial=1">Edit</button>
-                  <a class="row-menu-item" href="{{ url_for('print_label_get', item_id=item.id) }}">Print Label</a>
+                          data-edit-url="{{ url_for('edit_item_form', item_id=item.id) }}?partial=1">Edycja</button>
+                  <a class="row-menu-item" href="{{ url_for('print_label_get', item_id=item.id) }}">Wydrukuj etykiete</a>
                   {% if not item.depleted_at %}
                   <form class="js-deplete-form" method="post" action="{{ url_for('deplete_item', item_id=item.id) }}" style="display:contents">
                     <input type="hidden" name="reason" value="">
                     <input type="hidden" name="depleted_at_input" value="">
-                    <button class="row-menu-item row-menu-danger" type="submit">Mark Depleted</button>
+                    <button class="row-menu-item row-menu-danger" type="submit">Zaznacz jako wyczerpane</button>
                   </form>
                   {% else %}
                   <form method="post" action="{{ url_for('recover_item', item_id=item.id) }}" style="display:contents">
-                    <button class="row-menu-item" type="submit">Recover</button>
+                    <button class="row-menu-item" type="submit">Odzyskaj</button>
                   </form>
                   {% endif %}
                   <form method="post" action="{{ url_for('delete_item', item_id=item.id) }}" style="display:contents"
                         onsubmit="return confirm('Delete this item permanently?');">
-                    <button class="row-menu-item row-menu-danger" type="submit">Delete</button>
+                    <button class="row-menu-item row-menu-danger" type="submit">Usuń</button>
                   </form>
                 </div>
               </div>
