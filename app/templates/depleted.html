@@ -1,15 +1,15 @@
 {% extends "layout.html" %}
-{% block title %}Depleted Items · Pantrlytics{% endblock %}
+{% block title %}Wyczerpane produkty - Spiżarnia{% endblock %}
 
 {% block content %}
 <section class="card">
   <header class="page-header">
     <div class="page-header-text">
-      <h1 class="page-title">Depleted Items</h1>
-      <p class="page-subtitle">History of items marked as depleted.</p>
+      <h1 class="page-title">Wyczerpane produkty</h1>
+      <p class="page-subtitle">Historia produktów oznaczonych jako wyczerpane.</p>
     </div>
     <div class="page-header-actions">
-      <a class="btn" href="{{ url_for('index') }}">Back to inventory</a>
+      <a class="btn" href="{{ url_for('index') }}">Powrót do spisu</a>
     </div>
   </header>
 
@@ -18,14 +18,14 @@
       <table class="table table-inventory">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Category</th>
-            <th>Location</th>
-            <th>Bin</th>
-            <th>Depleted on</th>
-            <th>Days on hand</th>
-            <th>Reason</th>
-            <th class="right">Actions</th>
+            <th>Nazwa</th>
+            <th>Kategoria</th>
+            <th>Miejsce</th>
+            <th>Pojemnik</th>
+            <th>Wyczerpane w</th>
+            <th>Dni w posiadaniu</th>
+            <th>Powód</th>
+            <th class="right">Akcje</th>
           </tr>
         </thead>
         <tbody>
@@ -49,18 +49,18 @@
       </table>
     </div>
     <div class="pagination">
-      <div class="pagination-info">Page {{ page }} of {{ total_pages }} ({{ total_count }} items)</div>
+      <div class="pagination-info">Strona {{ page }} z {{ total_pages }} ({{ total_count }} produktów)</div>
       <div class="pagination-controls">
         {% if page > 1 %}
-          <a class="btn" href="{{ url_for('depleted_items', page=page-1) }}">← Prev</a>
+          <a class="btn" href="{{ url_for('depleted_items', page=page-1) }}">← Poprzedni</a>
         {% endif %}
         {% if page < total_pages %}
-          <a class="btn" href="{{ url_for('depleted_items', page=page+1) }}">Next →</a>
+          <a class="btn" href="{{ url_for('depleted_items', page=page+1) }}">Następny →</a>
         {% endif %}
       </div>
     </div>
   {% else %}
-    <p class="muted">No depleted items yet.</p>
+    <p class="muted">Brak wyczerpanych produktów.</p>
   {% endif %}
 </section>
 {% endblock %}
