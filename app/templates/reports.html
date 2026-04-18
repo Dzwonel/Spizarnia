@@ -5,37 +5,37 @@
 <section class="card" style="overflow-x: hidden;">
   <header class="page-header">
     <div class="page-header-text">
-      <h1 class="page-title">Reports</h1>
-      <p class="page-subtitle">Inventory health, expiration risk, and consumption analytics.</p>
+      <h1 class="page-title">Statusy</h1>
+      <p class="page-subtitle">Analiza stanu zapasów, ryzyka wygaśnięcia i zużycia.</p>
     </div>
     <form method="get" class="reports-filters" id="reports-filter-form">
       <div class="field">
-        <label>Horizon</label>
+        <label>Horyzont</label>
         <select class="input" name="horizon" onchange="this.form.submit()">
-          {% for key,label in [('7','Next 7d'),('14','Next 14d'),('30','Next 30d'),('60','Next 60d'),('all','All')] %}
+          {% for key,label in [('7','Następne 7 dni'),('14','Następne 14 dni'),('30','Następne 30 dni'),('60','Następne 60 dni'),('all','Wszystko')] %}
             <option value="{{ key }}" {% if horizon==key %}selected{% endif %}>{{ label }}</option>
           {% endfor %}
         </select>
       </div>
       <div class="field">
-        <label>Category</label>
+        <label>Kategoria</label>
         <select class="input" name="category" onchange="this.form.submit()">
-          <option value="">All</option>
+          <option value="">Wszystko</option>
           {% for c in categories %}
             <option value="{{ c }}" {% if category==c %}selected{% endif %}>{{ c }}</option>
           {% endfor %}
         </select>
       </div>
       <div class="field">
-        <label>Location</label>
+        <label>Miejsce</label>
         <select class="input" name="location" onchange="this.form.submit()">
-          <option value="">All</option>
+          <option value="">Wszystko</option>
           {% for l in locations %}
             <option value="{{ l }}" {% if location==l %}selected{% endif %}>{{ l }}</option>
           {% endfor %}
         </select>
       </div>
-      <a class="btn btn-secondary" href="/reports/export.csv?horizon={{ horizon }}&category={{ category }}&location={{ location }}">Export CSV</a>
+      <a class="btn btn-secondary" href="/reports/export.csv?horizon={{ horizon }}&category={{ category }}&location={{ location }}">Exportuj plik CSV</a>
     </form>
   </header>
 
@@ -56,13 +56,13 @@
 
     <div class="action-items-panel">
       <div class="action-items-header">
-        <h3>What Needs Attention</h3>
+        <h3>Co potrzebuje uwagi</h3>
         {% set n_expired_local = summary.overdue %}
         {% if n_expired_local > 0 %}
         <form method="post" action="/reports/bulk-deplete-expired" style="display:inline;">
           <button class="btn btn-danger btn-sm" type="submit"
             onclick="return confirm('Mark all {{ n_expired_local }} expired item{{ 's' if n_expired_local != 1 else '' }} as depleted?')">
-            Mark all expired depleted
+            Oznacz wszystkie przeterminowane jako wyczerpane
           </button>
         </form>
         {% endif %}
@@ -79,7 +79,7 @@
           {% endfor %}
         </ul>
       {% else %}
-        <p class="action-all-clear">✓ Everything looks good — no immediate actions needed.</p>
+        <p class="action-all-clear">✓ Wszystko wygląda dobrze — nie potrzeba akcji.</p>
       {% endif %}
     </div>
   </div>
@@ -87,27 +87,27 @@
   {# ── KPI Cards ────────────────────────────────────────────────── #}
   <div class="kpi-grid">
     <div class="kpi-card danger js-bucket" data-bucket="overdue">
-      <div class="kpi-label">Expired</div>
+      <div class="kpi-label">Przeterminowane</div>
       <div class="kpi-value">{{ summary.overdue }}</div>
     </div>
     <div class="kpi-card hot js-bucket" data-bucket="d7">
-      <div class="kpi-label">Expires ≤7d</div>
+      <div class="kpi-label">Przeterminowane za ≤ 7 dni</div>
       <div class="kpi-value">{{ summary.d7 }}</div>
     </div>
     <div class="kpi-card warn js-bucket" data-bucket="d14">
-      <div class="kpi-label">Expires ≤14d</div>
+      <div class="kpi-label">Przeterminowane za ≤ 14 dni</div>
       <div class="kpi-value">{{ summary.d14 }}</div>
     </div>
     <div class="kpi-card soon js-bucket" data-bucket="d30">
-      <div class="kpi-label">Expires ≤30d</div>
+      <div class="kpi-label">Przeterminowane za ≤ 30 dni</div>
       <div class="kpi-value">{{ summary.d30 }}</div>
     </div>
     <div class="kpi-card calm js-bucket" data-bucket="d60">
-      <div class="kpi-label">Expires ≤60d</div>
+      <div class="kpi-label">Przeterminowane za  ≤ 60 dni</div>
       <div class="kpi-value">{{ summary.d60 }}</div>
     </div>
     <div class="kpi-card neutral js-bucket" data-bucket="total">
-      <div class="kpi-label">Total in view</div>
+      <div class="kpi-label">W sumie na widoku</div>
       <div class="kpi-value">{{ summary.total }}</div>
     </div>
   </div>
@@ -116,8 +116,8 @@
   <div class="charts-row">
     <section class="report-card chart-card">
       <div class="report-head">
-        <h3>Compliance</h3>
-        <p class="muted">Active items with a use-by date.</p>
+        <h3>Zgodność</h3>
+        <p class="muted">Aktywne produkty z datą przydatności.</p>
       </div>
       <div class="chart-wrap chart-wrap-sm">
         <canvas id="complianceChart"></canvas>
@@ -125,14 +125,14 @@
       {% if compliance_rate is not none %}
         <div class="chart-stat">{{ compliance_rate }}% compliant</div>
       {% else %}
-        <div class="muted" style="margin-top:8px;">No use-by data yet.</div>
+        <div class="muted" style="margin-top:8px;">Brak daty przydaności.</div>
       {% endif %}
     </section>
 
     <section class="report-card chart-card chart-card-lg">
       <div class="report-head">
-        <h3>Aging Distribution</h3>
-        <p class="muted">Active items by days until expiry.</p>
+        <h3>Dystrybucja starzenia</h3>
+        <p class="muted">Aktywne produkty według liczby dni do wygaśnięcia.</p>
       </div>
       <div class="chart-wrap">
         <canvas id="agingChart"></canvas>
@@ -141,8 +141,8 @@
 
     <section class="report-card chart-card chart-card-lg">
       <div class="report-head">
-        <h3>Depletion Trend</h3>
-        <p class="muted">Items consumed per week (last 12 weeks).</p>
+        <h3>Trend wyczerpywania</h3>
+        <p class="muted">Produkty spożyte w tygodniu (ostatnie 12 tygodni).</p>
       </div>
       <div class="chart-wrap">
         <canvas id="trendChart"></canvas>
@@ -155,8 +155,8 @@
     {% if cat_compliance_rows %}
     <section class="report-card">
       <div class="report-head">
-        <h3>Compliance by Category</h3>
-        <p class="muted">Worst performers first. Excludes depleted items.</p>
+        <h3>Zgodność według kategorii</h3>
+        <p class="muted">Najpierw te z najgorszymi wynikami. Nie obejmuje przedmiotów wyczerpanych.</p>
       </div>
       <div class="table-wrap compliance-table-wrap">
         <table class="table compliance-table">
@@ -246,16 +246,16 @@
   <div class="reports-grid" style="margin-top:14px;">
     <section class="report-card">
       <div class="report-head">
-        <h3>Depletion Summary</h3>
-        <p class="muted">Items marked as depleted within this horizon.</p>
+        <h3>Podsumowanie wyczerpania</h3>
+        <p class="muted">Produkty oznaczone jako wyczerpane w tym horyzoncie.</p>
       </div>
       <div class="kpi-grid" style="margin-top:0;">
         <div class="kpi-card calm">
-          <div class="kpi-label">Depleted items</div>
+          <div class="kpi-label">Wyczerpane produkty</div>
           <div class="kpi-value">{{ depleted_count }}</div>
         </div>
         <div class="kpi-card neutral">
-          <div class="kpi-label">Avg days on hand</div>
+          <div class="kpi-label">Średnia liczba dni w "spiżarni"</div>
           <div class="kpi-value">{{ depleted_avg_doh if depleted_avg_doh is not none else "—" }}</div>
         </div>
         {% if waste_rate is not none %}
@@ -272,8 +272,8 @@
       {% endif %}
 
       <div class="report-head" style="margin-top:16px;">
-        <h3>By reason</h3>
-        <p class="muted">Click a reason to drill into items.</p>
+        <h3>Z powodu</h3>
+        <p class="muted">Kliknij powód, aby przejść do szczegółów elementów.</p>
       </div>
       {% if depletion_reasons %}
         <div class="bar-chart reason-chart">
@@ -289,14 +289,14 @@
           {% endfor %}
         </div>
       {% else %}
-        <div class="muted">No depleted items in this horizon.</div>
+        <div class="muted">Brak wyczerpanych produktów na tym horyzoncie.</div>
       {% endif %}
     </section>
 
     <section class="report-card">
       <div class="report-head">
-        <h3>Recent depletions</h3>
-        <p class="muted">Newest first, within this horizon.</p>
+        <h3>Ostatnie wyczerpania</h3>
+        <p class="muted">Najnowsze na początku, w tym horyzoncie.</p>
       </div>
       <div class="report-list">
         {% if depleted_recent %}
@@ -306,21 +306,21 @@
               <div>
                 <div class="report-title">
                   <a href="{{ url_for('show_item', item_id=it.id) }}">{{ it.name }}</a>
-                  <span class="pill pill-danger">Depleted</span>
+                  <span class="pill pill-danger">Wyczerpane</span>
                 </div>
                 <div class="report-sub">
                   {{ it.category or "No category" }} · {{ it.location or "No location" }}
                 </div>
               </div>
               <div class="report-meta" style="text-align:right;">
-                <div class="muted">Depleted on</div>
+                <div class="muted">Wyczerpany na</div>
                 <div>{{ rec.depleted_date }}</div>
                 <div class="muted">Days on hand: {{ rec.days_on_hand if rec.days_on_hand is not none else "—" }}</div>
               </div>
             </div>
           {% endfor %}
         {% else %}
-          <div class="muted">No depleted items in this horizon.</div>
+          <div class="muted">Brak wyczerpanych produktów na tym horyzoncie.</div>
         {% endif %}
       </div>
     </section>
@@ -329,8 +329,8 @@
   {# ── Upcoming Risk Top 25 ──────────────────────────────────────── #}
   <section class="report-card" style="margin-top:14px;">
     <div class="report-head">
-      <h3>Upcoming risk (top 25)</h3>
-      <p class="muted">Sorted by days remaining.</p>
+      <h3>Nadchodzące ryzyko (top 25)</h3>
+      <p class="muted">Posortowane według pozostałych dni.</p>
     </div>
     <div class="report-list">
       {% for item in expiring %}
@@ -347,12 +347,12 @@
             </div>
           </div>
           <div class="report-meta">
-            <div class="muted">Use-by</div>
+            <div class="muted">Termin przydatności do spożycia</div>
             <div>{{ item.use_by_date or "—" }}</div>
           </div>
         </div>
       {% else %}
-        <div class="muted">No items in this horizon.</div>
+        <div class="muted">Brak produktów na tym horyzoncie.</div>
       {% endfor %}
     </div>
   </section>
