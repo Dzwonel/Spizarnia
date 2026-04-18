@@ -5,9 +5,9 @@
 <section class="card">
   <header class="page-header">
     <div class="page-header-text">
-      <h1 class="page-title">Review</h1>
+      <h1 class="page-title">Przegląd</h1>
       <p class="page-subtitle">
-        Items not touched in {{ audit_window }} days · {{ total_needs }} of {{ total_active }} need review.
+        Produkty nie-tknięte w ciągu {{ audit_window }} dni · {{ total_needs }} z {{ total_active }} potrzebuje przeglądu.
       </p>
     </div>
     {% if needs_review %}
@@ -67,7 +67,7 @@
   {% else %}
   <div class="review-all-clear">
     <div class="review-all-clear-icon">✅</div>
-    <div class="review-all-clear-text">All items are up to date — nothing needs review.</div>
+    <div class="review-all-clear-text">Wszystkie elementy są aktualne — nic nie wymaga przeglądu.</div>
   </div>
   {% endif %}
 
