@@ -97,21 +97,21 @@
     </div>
 
     <div class="field">
-      <label>Origin Date {% if 'origin_date' in required_fields %}(REQUIRED){% endif %}</label>
+      <label>Data pochodzenia {% if 'origin_date' in required_fields %}(Wymagane){% endif %}</label>
       <input class="input" type="date" name="origin_date"
              value="{{ form_values.origin_date or '' }}"
              {% if 'origin_date' in required_fields %}required{% endif %}>
     </div>
 
     <div class="field">
-      <label>Use-by date {% if 'use_by_date' in required_fields %}(REQUIRED){% endif %}</label>
+      <label>Data przydatności {% if 'use_by_date' in required_fields %}(Wymagane){% endif %}</label>
       <input class="input" type="date" name="use_by_date"
              value="{{ form_values.use_by_date or '' }}"
              {% if 'use_by_date' in required_fields %}required{% endif %}>
     </div>
 
     <div class="field">
-      <label>Use Within {% if 'use_within' in required_fields %}(REQUIRED){% endif %}</label>
+      <label>Spożyć w ciągu {% if 'use_within' in required_fields %}(Wymagane){% endif %}</label>
       <select class="input" name="use_within">
         <option value="">—</option>
         {% for uw in use_withins %}
@@ -123,45 +123,45 @@
     </div>
 
     <div class="field field--full">
-      <label>Review window <span class="muted" style="font-weight:normal;">(days — leave blank to use default of {{ audit_window_days }}d)</span></label>
+      <label>Okno przeglądu <span class="muted" style="font-weight:normal;">(dni — zostaw puste by użyć domyślnie {{ audit_window_days }} dni)</span></label>
       <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:4px;">
         {% for days in [15, 30, 60, 120] %}
           <button type="button" class="btn btn-secondary btn-sm js-review-quick
             {% if form_values.review_window_days == days %}btn-accent{% endif %}"
-            data-days="{{ days }}">{{ days }}d</button>
+            data-days="{{ days }}">{{ days }} dni</button>
         {% endfor %}
       </div>
       <input class="input input-small" type="number" name="review_window_days" id="new_review_window_days"
-             min="1" max="365" placeholder="Default ({{ audit_window_days }}d)"
+             min="1" max="365" placeholder="Domyślnie ({{ audit_window_days }} dni)"
              value="{{ form_values.review_window_days or '' }}" style="width:120px;">
     </div>
 
     <div class="field field--full">
-      <label>Notes {% if 'notes' in required_fields %}(REQUIRED){% endif %}</label>
+      <label>Notatki {% if 'notes' in required_fields %}(Wymagane){% endif %}</label>
       <textarea class="input" name="notes" rows="3"
         {% if 'notes' in required_fields %}required{% endif %}
       >{{ form_values.notes or "" }}</textarea>
     </div>
 
     <div class="field field--full">
-      <label>Photos</label>
+      <label>Zdjęcia</label>
       <div class="photo-input-row">
         <label class="file-input">
-          <span class="file-btn">📷 Take photo</span>
+          <span class="file-btn">📷 Zrób zdjęcie</span>
           <input class="input" type="file" name="photos" accept="image/*" capture="environment">
-          <span class="file-name">Camera</span>
+          <span class="file-name">Kamera</span>
         </label>
         <label class="file-input">
-          <span class="file-btn">🖼 Choose file</span>
+          <span class="file-btn">🖼 Wybierz plik</span>
           <input class="input" type="file" name="photos" accept="image/*" multiple>
-          <span class="file-name">Select one or more</span>
+          <span class="file-name">Wypierz jeden lub więcej</span>
         </label>
       </div>
     </div>
 
     <div class="actions field--full">
-      <button class="btn" type="submit">Save</button>
-      <a class="btn btn-secondary" href="{{ url_for('index') }}">Cancel</a>
+      <button class="btn" type="submit">Zapisz</button>
+      <a class="btn btn-secondary" href="{{ url_for('index') }}">Anuluj</a>
     </div>
   </form>
 </section>
