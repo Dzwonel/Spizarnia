@@ -92,10 +92,10 @@
 <section class="card" style="margin-top:16px;">
   <header class="page-header">
     <div class="page-header-text">
-      <h2 class="page-title">Item Label Presets</h2>
+      <h2 class="page-title">Wstępne ustawienia etykiet produktów</h2>
       <p class="page-subtitle">
-        Global presets for printing item labels. Advanced mode: choose fields,
-        font scale, QR, and basic alignment.
+        Globalne ustawienia do drukowania etykiet produktów. Tryb zaawansowany: Wybierz pole,
+        wielkość czciąki, kod QR, oraz podstawowe wyrównaie.
       </p>
     </div>
   </header>
@@ -151,50 +151,50 @@
     </div>
   {% else %}
     <p class="muted">
-      No presets yet. Create one below.
+      Brak ustawień wstępnych. Stwórz jeden poniżej.
     </p>
   {% endif %}
 
   <!-- Create new preset -->
-  <h3 class="card-title" style="margin-top:8px;">New preset</h3>
+  <h3 class="card-title" style="margin-top:8px;">Nowe ustawienie wstępne</h3>
 
   <form method="post" action="{{ url_for('label_preset_save') }}" class="form-grid">
     <div class="field">
-      <label class="kv-label" for="preset_name">Name</label>
+      <label class="kv-label" for="preset_name">Nazwa</label>
       <input
         class="input"
         id="preset_name"
         name="name"
         type="text"
-        placeholder="e.g. Freezer basic"
+        placeholder="np. Podstawowe ustawienia zamrażalki"
         required
       >
     </div>
 
     <div class="field">
-      <label class="kv-label" for="preset_media">Media</label>
+      <label class="kv-label" for="preset_media">Format</label>
       <select class="input" id="preset_media" name="media">
-        <option value="w79h252">Small address (w79h252)</option>
-        <option value="w154h64">Large label (w154h64)</option>
+        <option value="w79h252">Mały adres (w79h252)</option>
+        <option value="w154h64">Duża etykieta (w154h64)</option>
       </select>
     </div>
 
     <div class="field">
       <label class="kv-label">Fields</label>
       <div class="muted" style="font-size:12px; margin-bottom:4px;">
-        Toggle what shows on the label. Quantity and Unit are combined.
+        Wybierz co ma być na etykiecie. Ilość i jednostka są złączone.
       </div>
       <ul class="admin-sortable-list admin-required-list" style="gap:6px; padding:6px 8px;">
         {% set field_toggles = [
-          ('include_name','Name', True),
-          ('include_location','Location', True),
-          ('include_bin','Bin', True),
-          ('include_qty_unit','Qty + Unit', True),
-          ('include_condition','Condition', False),
-          ('include_cook_date','Origin Date', False),
-          ('include_use_by','Use-by', True),
-          ('include_use_within','Use Within', False),
-          ('include_qr','QR code', True)
+          ('include_name','Nazwa', True),
+          ('include_location','Miejsce', True),
+          ('include_bin','Pojemnik', True),
+          ('include_qty_unit','ilo + jed', True),
+          ('include_condition','Stan', False),
+          ('include_cook_date','Data pochodzenia', False),
+          ('include_use_by','Data przydatności', True),
+          ('include_use_within','Spożyć w ciągu', False),
+          ('include_qr','Kod QR', True)
         ] %}
         {% for key,label,checked in field_toggles %}
           <li class="admin-sortable-row" style="cursor:default;">
@@ -211,7 +211,7 @@
     </div>
 
     <div class="field">
-      <label class="kv-label" for="font_scale">Font scale</label>
+      <label class="kv-label" for="font_scale">Wielkość czciąki</label>
       <input
         class="input"
         id="font_scale"
@@ -223,43 +223,43 @@
         value="1.0"
       >
       <p class="muted" style="font-size:12px;margin-top:4px;">
-        1.0 = normal, lower = smaller text, higher = bigger.
+        1.0 = normalne, niżej = mniejszy tekst, wyżej = większy.
       </p>
     </div>
 
     <div class="field">
-      <label class="kv-label">Alignment</label>
+      <label class="kv-label">Wyrównaie</label>
       <label class="switch">
         <input type="checkbox" name="align_center">
         <span class="slider"></span>
       </label>
-      <div class="muted" style="font-size:12px;">Center text (advanced)</div>
+      <div class="muted" style="font-size:12px;">Tekst wyśrodkowany (zaawansowany)</div>
     </div>
 
     <div class="field">
-      <label class="kv-label" for="printer_side">Printer side</label>
+      <label class="kv-label" for="printer_side">Strona drukowania</label>
       <select class="input" id="printer_side" name="printer_side">
-        <option value="auto" selected>Auto (based on label size)</option>
-        <option value="left">Left roll</option>
-        <option value="right">Right roll</option>
+        <option value="auto" selected>Automatyczne (na podstawie rozmiaru etykiety)</option>
+        <option value="left">Lewa rolka</option>
+        <option value="right">Prawa rolka</option>
       </select>
       <div class="muted" style="font-size:12px; margin-top:4px;">
-        For twin-roll printers (e.g., DYMO Twin). Use “Auto” to infer from media size.
+        W przypadku drukarek z dwiema rolkami (np. DYMO Twin) użyj opcji „Auto”, aby określić rozmiar nośnika.
       </div>
     </div>
 
     <div class="field">
-      <label class="kv-label">Default?</label>
+      <label class="kv-label">Domyślne?</label>
       <label style="font-size:12px;">
         <input type="checkbox" name="make_default"
           {% if not presets %}checked{% endif %}>
-        Make this the default preset
+        Zrób to domyślnym ustawieniem wstępnym
       </label>
     </div>
 
     <div class="actions field--full">
       <button class="btn btn-primary" type="submit">
-        Save preset
+        Zapisz ustawienie wstępne
       </button>
     </div>
   </form>
