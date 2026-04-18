@@ -2,7 +2,7 @@
 {% block title %}New Item · Inventory & Labels{% endblock %}
 {% block content %}
 <section class="card">
-  <h2 class="card-title">Create Item</h2>
+  <h2 class="card-title">Dodaj produkt</h2>
 
   {% if error %}
     <div class="alert alert-error">{{ error }}</div>
@@ -10,15 +10,15 @@
 
   <form class="form-grid js-validate-required" method="post" enctype="multipart/form-data">
     <div class="field">
-      <label>Name {% if 'name' in required_fields %}(REQUIRED){% endif %}</label>
+      <label>Nazwa {% if 'name' in required_fields %}(Wymagane){% endif %}</label>
       <input class="input" type="text" name="name"
              value="{{ form_values.name or '' }}"
              {% if 'name' in required_fields %}required{% endif %}>
     </div>
 
     <div class="field">
-      <label>Category {% if 'category' in required_fields %}(REQUIRED){% endif %}</label>
-      <input class="input" list="cat-list" name="category" placeholder="Type or pick…"
+      <label>Kategoria {% if 'category' in required_fields %}(Wymagane){% endif %}</label>
+      <input class="input" list="cat-list" name="category" placeholder="Wpisz lub wybierz…"
              value="{{ form_values.category or '' }}"
              {% if 'category' in required_fields %}required{% endif %}>
       <datalist id="cat-list">
@@ -27,14 +27,14 @@
     </div>
 
     <div class="field">
-      <label>Tags (comma-separated) {% if 'tags' in required_fields %}(REQUIRED){% endif %}</label>
+      <label>Tagi (odzielony przecinkiem) {% if 'tags' in required_fields %}(Wymagane){% endif %}</label>
       <input class="input" type="text" name="tags"
              value="{{ form_values.tags or '' }}"
              {% if 'tags' in required_fields %}required{% endif %}>
     </div>
 
     <div class="field">
-      <label for="location">Location {% if 'location' in required_fields %}(REQUIRED){% endif %}</label>
+      <label for="location">Miejsce {% if 'location' in required_fields %}(Wymagane){% endif %}</label>
       <input class="input" list="loc-list" id="location" name="location"
              value="{{ form_values.location or '' }}"
              {% if 'location' in required_fields %}required{% endif %}>
@@ -44,8 +44,8 @@
     </div>
 
     <div class="field">
-      <label>Bin # {% if 'bin_number' in required_fields %}(REQUIRED){% endif %}</label>
-      <input class="input" list="bin-list" name="bin_number" placeholder="Type or pick…"
+      <label>Pojemnik # {% if 'bin_number' in required_fields %}(Wymagane){% endif %}</label>
+      <input class="input" list="bin-list" name="bin_number" placeholder="Wpisz lub wybierz…"
              value="{{ form_values.bin_number or '' }}"
              {% if 'bin_number' in required_fields %}required{% endif %}>
       <datalist id="bin-list">
@@ -54,7 +54,7 @@
     </div>
 
     <div class="field">
-      <label>Quantity {% if 'quantity' in required_fields %}(REQUIRED){% endif %}</label>
+      <label>Ilość {% if 'quantity' in required_fields %}(Wymagane){% endif %}</label>
       <input class="input" type="number" name="quantity"
              value="{{ form_values.quantity if form_values.quantity is not none else 1 }}"
              min="0"
@@ -62,7 +62,7 @@
     </div>
 
     <div class="field">
-      <label>Unit {% if 'unit' in required_fields %}(REQUIRED){% endif %}</label>
+      <label>Jednostka {% if 'unit' in required_fields %}(Wymagane){% endif %}</label>
       <input class="input" type="text" name="unit" list="unit-list"
              value="{{ form_values.unit or 'each' }}"
              {% if 'unit' in required_fields %}required{% endif %}>
@@ -72,14 +72,14 @@
     </div>
 
     <div class="field">
-      <label>Condition {% if 'condition' in required_fields %}(REQUIRED){% endif %}</label>
-      <input class="input" type="text" name="condition" placeholder="new / good / used / frozen"
+      <label>Stan {% if 'condition' in required_fields %}(Wymagane){% endif %}</label>
+      <input class="input" type="text" name="condition" placeholder="nowe / dobre / używane / zamrożone"
              value="{{ form_values.condition or '' }}"
              {% if 'condition' in required_fields %}required{% endif %}>
     </div>
 
     <div class="field field--full">
-      <label>Origin Date label <span class="muted" style="font-weight:normal;">(what to call this date)</span></label>
+      <label>Etykieta daty pochodzenia <span class="muted" style="font-weight:normal;">(jak nazwać datę)</span></label>
       <div style="display:flex; flex-direction:column; gap:6px; max-width:260px;">
         {% set _cur_odl = form_values.origin_date_label or 'Cooked On' %}
         {% set _odl_in_list = _cur_odl in origin_date_labels %}
