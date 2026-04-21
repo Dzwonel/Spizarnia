@@ -503,15 +503,15 @@ def ensure_usewithin_defaults():
 
 
 ORIGIN_DATE_LABEL_DEFAULTS = [
-    "Cooked On",
-    "Purchased On",
-    "Opened On",
-    "Made On",
-    "Frozen On",
-    "Received On",
-    "Prepared On",
-    "Picked On",
-    "Brewed On",
+    "Upieczone",
+    "Kupione",
+    "Otwarte",
+    "Zrobione",
+    "Zamrożone",
+    "Otrzymane",
+    "Przygotowane",
+    "Zebrane",
+    "Ugotowane",
 ]
 
 
